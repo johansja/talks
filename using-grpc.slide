@@ -1,0 +1,95 @@
+Using gRPC to build Microservices
+20 Oct 2015
+
+Johan Sim Jian An
+Software Engineer, Zumata Technologies Pte. Ltd.
+johan.sim@zumata.com
+johansja@gmail.com
+@johansja
+
+
+* Introduction
+
+* What is RPC?
+
+.caption A remote procedure call (RPC) is an inter-process communication that allows a computer program to cause a subroutine or procedure to execute in another address space (commonly on another computer on a shared network) without the programmer explicitly coding the details for this remote interaction. [[https://en.wikipedia.org/wiki/Remote_procedure_call][Wikipedia]]
+
+Popular implementation:
+
+- XML-RPC
+- SOAP
+
+* What is gRPC?
+
+Essential speaking, Google's implementation of RPC which currently consists of:
+
+- HTTP/2
+- Protocol Buffers
+
+.image images/grpc-concept.png _ 600
+
+* What is Microservices?
+
+.image images/microservices.png _ 800
+
+
+* Let's start
+
+* Defining IDL
+
+Interface Definition Language (IDL) is essentially the contract/standard between client and server. This IDL can then be used to generate code.
+
+In gRPC, the IDL is written in Protocol Buffers.
+
+<Note: Some intro of protobuf here?>
+
+.code lyricplayer/player.proto
+
+* Generating codes
+
+Install these first:
+
+- proto3 (Install from source)
+- github.com/golang/protobuf/protoc-gen-go (go get)
+
+Using the IDL, we can then generate the client and server stub.
+
+  $ protoc --go_out=plugins=grpc:. player.proto
+
+Stick that command into one Go file and use Go generate.
+
+.code lyricplayer/player.go
+
+  $ go generate
+
+* Write the server
+
+A server interface has been generated.
+
+.code lyricplayer/player.pb.go /^type Player/,/^}/
+
+* Use the client
+
+A client stub has been generated.
+
+.code lyricplayer/player.pb.go /^type playerClient/,/^}/
+.code lyricplayer/player.pb.go /^func NewPlayerClient/,/^}/
+
+* Write a dummy client for testing
+
+Use the generated client interface for testing.
+
+.code lyricplayer/player.pb.go /^type PlayerClient/,/^}/
+
+* Using gRPC in Zumata
+
+3 months into gRPC.
+
+Currently used in:
+
+- Accounting service (Server: Ruby, Client: Go)
+- Payment service (Server, Client: Go)
+
+Zumata is *hiring*!
+
+Join us if you are interested in Go (and _maybe_ also gRPC).

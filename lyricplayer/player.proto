@@ -1,0 +1,33 @@
+syntax="proto3";
+
+package player;
+
+service Player {
+  // Get the current playing time of the player.
+  rpc GetTime(GetTimeRequest) returns (GetTimeResponse) {}
+  // Set the current playing time of the player.
+  rpc SetTime(SetTimeRequest) returns (SetTimeResponse) {}
+  // Get the current lyric
+  rpc GetLyric(GetLyricRequest) returns (stream GetLyricResponse) {}
+}
+
+message GetTimeRequest {
+}
+
+message GetTimeResponse {
+  int64 time = 1;
+}
+
+message SetTimeRequest {
+  int64 time = 1;
+}
+
+message SetTimeResponse {
+}
+
+message GetLyricRequest {
+}
+
+message GetLyricResponse {
+  string lyric = 1;
+}
