@@ -10,6 +10,7 @@ johansja@gmail.com
 
 * Introduction
 
+
 * What is RPC?
 
 .caption A remote procedure call (RPC) is an inter-process communication that allows a computer program to cause a subroutine or procedure to execute in another address space (commonly on another computer on a shared network) without the programmer explicitly coding the details for this remote interaction. [[https://en.wikipedia.org/wiki/Remote_procedure_call][Wikipedia]]
@@ -18,6 +19,7 @@ Popular implementation:
 
 - XML-RPC
 - SOAP
+
 
 * What is gRPC?
 
@@ -28,12 +30,14 @@ Essential speaking, Google's implementation of RPC which currently consists of:
 
 .image images/grpc-concept.png _ 600
 
+
 * What is Microservices?
 
 .image images/microservices.png _ 800
 
 
 * Let's start
+
 
 * Defining IDL
 
@@ -44,6 +48,7 @@ In gRPC, the IDL is written in Protocol Buffers.
 <Note: Some intro of protobuf here?>
 
 .code lyricplayer/player.proto
+
 
 * Generating codes
 
@@ -62,11 +67,23 @@ Stick that command into one Go file and use Go generate.
 
   $ go generate
 
+
 * Write the server
 
 A server interface has been generated.
 
-.code lyricplayer/player.pb.go /^type Player/,/^}/
+.code lyricplayer/player.pb.go /^type PlayerServer/,/^}/
+
+
+* Write the serve (cont.)
+
+Write an implementation that satisfies the interface.
+
+.code lyricplayer/server/server.go /^type Player/,/^}/
+.code lyricplayer/server/server.go /^func \(p \*Player\) GetTime/,/^}/
+
+Of course, the other methods as well.
+
 
 * Use the client
 
@@ -75,11 +92,29 @@ A client stub has been generated.
 .code lyricplayer/player.pb.go /^type playerClient/,/^}/
 .code lyricplayer/player.pb.go /^func NewPlayerClient/,/^}/
 
-* Write a dummy client for testing
 
-Use the generated client interface for testing.
+* Use the client (cont.)
+
+Establish a connection and call the related functions.
+
+.code lyricplayer/client/client.go /START GETTIME OMIT/,/END GETTIME OMIT/
+
+
+* Other small things
+
+
+* Inter-services testing
+
+Write a dummy client that satisy the following generated interface for testing.
 
 .code lyricplayer/player.pb.go /^type PlayerClient/,/^}/
+
+
+* RESTful JSON API to gRPC
+
+There is a plugin for protoc named [[https://github.com/gengo/grpc-gateway][grpc-gateway]] which generates a reverse-proxy
+for that.
+
 
 * Using gRPC in Zumata
 

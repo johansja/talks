@@ -5,14 +5,15 @@ import (
 	"log"
 	"time"
 
-	"golang.org/x/net/context"
+	"github.com/JohanSJA/talks/lyricplayer"
 
-	"github.com/johansja/presentations/lyricplayer"
+	"golang.org/x/net/context"
 
 	"google.golang.org/grpc"
 )
 
 func main() {
+	// START GETTIME OMIT
 	conn, err := grpc.Dial("127.0.0.1:2015", grpc.WithInsecure())
 	if err != nil {
 		log.Fatal("Couldn't dial: ", err)
@@ -28,6 +29,7 @@ func main() {
 		log.Fatal("Couldn't get time: ", err)
 	}
 	log.Print("Second(s) elapsed: ", gtRes.Time)
+	// END GETTIME OMIT
 
 	log.Print("Setting time")
 	_, err = c.SetTime(ctx, &player.SetTimeRequest{Time: 5})
