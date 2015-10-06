@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/JohanSJA/talks/lyricplayer"
+	"github.com/johansja/talks/lyricplayer"
 
 	"golang.org/x/net/context"
 
@@ -13,18 +13,20 @@ import (
 )
 
 func main() {
-	// START GETTIME OMIT
+	// START CONNECT OMIT
 	conn, err := grpc.Dial("127.0.0.1:2015", grpc.WithInsecure())
 	if err != nil {
 		log.Fatal("Couldn't dial: ", err)
 	}
 	defer conn.Close()
-
 	c := player.NewPlayerClient(conn)
+	// END CONNECT OMIT
+
 	ctx := context.Background()
 
+	// START GETTIME OMIT
 	log.Print("Getting time")
-	gtRes, err := c.GetTime(ctx, &player.GetTimeRequest{})
+	gtRes, err := c.GetTime(ctx, &player.GetTimeRequest{}) // HL
 	if err != nil {
 		log.Fatal("Couldn't get time: ", err)
 	}
@@ -42,18 +44,20 @@ func main() {
 	}
 	log.Print("Second(s) elapsed: ", gtRes.Time)
 
+	// START GETLYRIC OMIT
 	log.Print("Getting 5 lyric")
-	glStream, err := c.GetLyric(ctx, &player.GetLyricRequest{})
+	glStream, err := c.GetLyric(ctx, &player.GetLyricRequest{}) // HL
 	if err != nil {
 		log.Fatal("Couldn't get lyric stream: ", err)
 	}
 	for i := 0; i < 5; i++ {
-		glRes, err := glStream.Recv()
+		glRes, err := glStream.Recv() // HL
 		if err != nil {
 			log.Fatal("Couldn't get lyric ", i, ": ", err)
 		}
 		log.Print("Lyric ", i, ": ", glRes.Lyric)
 	}
+	// END GETLYRIC OMIT
 
 	log.Print("Sleep 2 seconds")
 	time.Sleep(2 * time.Second)

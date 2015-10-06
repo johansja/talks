@@ -23,10 +23,11 @@ Popular implementation:
 
 * What is gRPC?
 
-Essential speaking, Google's implementation of RPC which currently consists of:
+gRPC stands for gRPC Remote Procedure Call. Essential speaking, Google's
+implementation of RPC which currently consists of:
 
 - HTTP/2
-- Protocol Buffers
+- Protocol Buffers 3
 
 .image images/grpc-concept.png _ 600
 
@@ -36,6 +37,35 @@ Essential speaking, Google's implementation of RPC which currently consists of:
 .image images/microservices.png _ 800
 
 
+* gRPC Overview
+
+
+* Projects
+
+Three main projects
+
+- [[https://github.com/grpc/grpc][grpc]]: The C based gRPC (C++, Node.js, Python, Ruby, Objective-C, PHP, C#)
+- [[https://github.com/grpc/grpc-go][gprc-go]]: The Go language implementation of gRPC. HTTP/2 based RPC
+- [[https://github.com/grpc/grpc-java][grpc-java]]: The Java gRPC implementation. HTTP/2 based RPC
+
+Developed closely by Google together with Square.
+
+Licensed in [[http://opensource.org/licenses/BSD-3-Clause][3-clause BSD]].
+
+
+* Supported languages
+
+- C++
+- C#
+- Go
+- Java
+- Node.js
+- Objective-C
+- PHP
+- Python
+- Ruby
+
+
 * Let's start
 
 
@@ -43,12 +73,14 @@ Essential speaking, Google's implementation of RPC which currently consists of:
 
 Interface Definition Language (IDL) is essentially the contract/standard between client and server. This IDL can then be used to generate code.
 
-In gRPC, the IDL is written in Protocol Buffers.
+In gRPC, the IDL is written in Protocol Buffers 3.
 
-<Note: Some intro of protobuf here?>
+- Interoperability between proto3 and JSON. [[https://developers.google.com/protocol-buffers/docs/proto3#json][See this]]
+- Strict UTF-8 checking for string.
 
-.code lyricplayer/player.proto
+* Defining IDL (cont.)
 
+.code lyricplayer/player.proto /START PROTO OMIT/,/END PROTO OMIT/
 
 * Generating codes
 
@@ -75,14 +107,25 @@ A server interface has been generated.
 .code lyricplayer/player.pb.go /^type PlayerServer/,/^}/
 
 
-* Write the serve (cont.)
+* Write the server (cont.)
 
 Write an implementation that satisfies the interface.
 
 .code lyricplayer/server/server.go /^type Player/,/^}/
+
+
+* Write the server (cont.)
+
+Simple RPC
+
 .code lyricplayer/server/server.go /^func \(p \*Player\) GetTime/,/^}/
 
-Of course, the other methods as well.
+
+* Write the server (cont.)
+
+Server streaming
+
+.code lyricplayer/server/server.go /^func \(p \*Player\) GetLyric/,/^}/
 
 
 * Use the client
@@ -97,7 +140,21 @@ A client stub has been generated.
 
 Establish a connection and call the related functions.
 
+.code lyricplayer/client/client.go /START CONNECT OMIT/,/END CONNECT OMIT/
+
+
+* Use the client (cont.)
+
+Simple RPC
+
 .code lyricplayer/client/client.go /START GETTIME OMIT/,/END GETTIME OMIT/
+
+
+* Use the client (cont.)
+
+Server streaming
+
+.code lyricplayer/client/client.go /START GETLYRIC OMIT/,/END GETLYRIC OMIT/
 
 
 * Other small things
@@ -112,8 +169,30 @@ Write a dummy client that satisy the following generated interface for testing.
 
 * RESTful JSON API to gRPC
 
-There is a plugin for protoc named [[https://github.com/gengo/grpc-gateway][grpc-gateway]] which generates a reverse-proxy
-for that.
+There is a plugin for protoc named [[https://github.com/gengo/grpc-gateway][grpc-gateway]] which generates a reverse-proxy for that.
+
+.code lyricplayer/player2.proto /START PROTO OMIT/,/END PROTO OMIT/
+
+
+* Health check
+
+Standardize health check service as discussed on [[https://github.com/grpc/grpc/blob/master/doc/health-checking.md][doc]].
+
+.code health/grpc_health_v1alpha/health.proto
+
+
+* Health check (cont.)
+Implemented server in [[google.golang.org/grpc/health][Go]].
+
+.code health/health.go /^func \(s \*HealthServer\) Check/,/^}/
+
+
+* Health check (cont.)
+Ready to use client [[google.golang.org/grpc/health/grpc_health_v1alpha][available]].
+
+.code health/grpc_health_v1alpha/health.pb.go /^type HealthClient/,/^}/
+.code health/grpc_health_v1alpha/health.pb.go /^func NewHealthClient/,/^}/
+
 
 
 * Using gRPC in Zumata
@@ -128,3 +207,6 @@ Currently used in:
 Zumata is *hiring*!
 
 Join us if you are interested in Go (and _maybe_ also gRPC).
+
+
+* Q & A

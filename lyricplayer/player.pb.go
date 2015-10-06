@@ -165,9 +165,9 @@ func RegisterPlayerServer(s *grpc.Server, srv PlayerServer) {
 	s.RegisterService(&_Player_serviceDesc, srv)
 }
 
-func _Player_GetTime_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _Player_GetTime_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error) (interface{}, error) {
 	in := new(GetTimeRequest)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
 	out, err := srv.(PlayerServer).GetTime(ctx, in)
@@ -177,9 +177,9 @@ func _Player_GetTime_Handler(srv interface{}, ctx context.Context, codec grpc.Co
 	return out, nil
 }
 
-func _Player_SetTime_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _Player_SetTime_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error) (interface{}, error) {
 	in := new(SetTimeRequest)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
 	out, err := srv.(PlayerServer).SetTime(ctx, in)

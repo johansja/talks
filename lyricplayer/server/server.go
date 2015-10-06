@@ -10,7 +10,7 @@ import (
 
 	"google.golang.org/grpc"
 
-	"github.com/johansja/presentations/lyricplayer"
+	"github.com/johansja/talks/lyricplayer"
 )
 
 type Player struct {
@@ -76,7 +76,7 @@ func (p *Player) GetLyric(req *player.GetLyricRequest, stream player.Player_GetL
 			Lyric: fmt.Sprint("This is lyric at second #", p.secondsElapsed),
 		}
 		log.Println("Sending lyric: ", res)
-		if err := stream.Send(res); err != nil {
+		if err := stream.Send(res); err != nil { // HL
 			log.Print("Error sending lyric: ", err)
 			return err
 		}

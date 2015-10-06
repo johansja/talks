@@ -3,14 +3,19 @@ syntax="proto3";
 
 package player;
 
+import "google/api/annotations.proto"; // HL
+
 service Player {
   // Get the current playing time of the player.
-  rpc GetTime(GetTimeRequest) returns (GetTimeResponse) {}
+  rpc GetTime(GetTimeRequest) returns (GetTimeResponse) {
+    option (google.api.http).get = "/time"; // HL
+  }
   // Set the current playing time of the player.
   rpc SetTime(SetTimeRequest) returns (SetTimeResponse) {}
   // Get the current lyric
   rpc GetLyric(GetLyricRequest) returns (stream GetLyricResponse) {}
 }
+// END PROTO OMIT
 
 message GetTimeRequest {
 }
@@ -18,7 +23,6 @@ message GetTimeRequest {
 message GetTimeResponse {
   int64 time = 1;
 }
-// END PROTO OMIT
 
 message SetTimeRequest {
   int64 time = 1;
