@@ -173,6 +173,8 @@ There is a plugin for protoc named [[https://github.com/gengo/grpc-gateway][grpc
 
 .code lyricplayer/player2.proto /START PROTO OMIT/,/END PROTO OMIT/
 
+Translation between REST to gRPC is documented in [[https://github.com/google/googleapis/blob/master/google/api/http.proto][this proto file]].
+
 
 * Health check
 
