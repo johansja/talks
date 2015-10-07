@@ -182,17 +182,27 @@ Standardize health check service as discussed on [[https://github.com/grpc/grpc/
 
 
 * Health check (cont.)
+
 Implemented server in [[google.golang.org/grpc/health][Go]].
 
 .code health/health.go /^func \(s \*HealthServer\) Check/,/^}/
 
 
 * Health check (cont.)
+
 Ready to use client [[google.golang.org/grpc/health/grpc_health_v1alpha][available]].
 
 .code health/grpc_health_v1alpha/health.pb.go /^type HealthClient/,/^}/
 .code health/grpc_health_v1alpha/health.pb.go /^func NewHealthClient/,/^}/
 
+
+* Tracing
+
+gRPC logs all connections and events using `net/trace` package.
+
+.code lyricplayer/server/server.go /START TRACE OMIT/,/END TRACE OMIT/
+
+Looks at the logs at `/debug/requests` and `/debug/events`.
 
 
 * Using gRPC in Zumata

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"net/http"
 	"time"
 
 	"golang.org/x/net/context"
@@ -86,6 +87,12 @@ func (p *Player) GetLyric(req *player.GetLyricRequest, stream player.Player_GetL
 }
 
 func main() {
+	// START TRACE OMIT
+	go func() {
+		http.ListenAndServe(":2016", nil)
+	}()
+	// END TRACE OMIT
+
 	p := NewPlayer()
 	log.Print("Start playing at: ", time.Now())
 	p.Play()
