@@ -2,7 +2,7 @@ Using gRPC to build Microservices
 20 Oct 2015
 
 Johan Sim Jian An
-Software Engineer, Zumata Technologies Pte. Ltd.
+Software Engineer, ZUMATA
 johan.sim@zumata.com
 johansja@gmail.com
 @johansja
@@ -53,17 +53,37 @@ Developed closely by Google together with Square.
 Licensed in [[http://opensource.org/licenses/BSD-3-Clause][3-clause BSD]].
 
 
-* Supported languages
+* Why gRPC?
 
-- C++
-- C#
-- Go
-- Java
-- Node.js
-- Objective-C
-- PHP
-- Python
-- Ruby
+- Low latency, highly scalable, distributed system.
+- Developing mobile clients which are communicating to a cloud server.
+- Designing a new protocol that needs to be accurate, efficient and language independent.
+- Layered design to enable extension eg. authentication, load balancing, logging and monitoring etc.
+
+Taken from [[http://www.grpc.io/faq/][gRPC FAQ]].
+
+
+* Why HTTP/2?
+
+- Is binary, instead of textual.
+- Is fully multiplexed, instead of ordered and blocking.
+- Can therefore use one connection for parallelism.
+- Use header compression to reduce overhead.
+- Allow servers to "push" responses proactively into client caches.
+
+Taken from [[https://http2.github.io/faq/#what-are-the-key-differences-to-http1x][HTTP/2 FAQ]].
+
+
+* Why Protocol Buffer 3?
+
+Advantages over XML:
+
+- Are simpler.
+- Are 3 to 10 times smaller.
+- Are 20 to 100 times faster.
+- Are less ambiguous.
+- Generate data access classes that are easier to use programmatically.
+
 
 
 * Let's start
@@ -78,9 +98,11 @@ In gRPC, the IDL is written in Protocol Buffers 3.
 - Interoperability between proto3 and JSON. [[https://developers.google.com/protocol-buffers/docs/proto3#json][See this]]
 - Strict UTF-8 checking for string.
 
+
 * Defining IDL (cont.)
 
 .code lyricplayer/player.proto /START PROTO OMIT/,/END PROTO OMIT/
+
 
 * Generating codes
 
@@ -158,6 +180,15 @@ Server streaming
 
 
 * Other small things
+
+
+* gRPC Return Code
+
+A set of errors that are more directly applicable to API uses cases than the HTTP status codes.
+
+OK, Canceled, Unknown, InvalidArgument, DeadlineExceeded, NotFound, AlreadyExists, PermissionDenied, Unauthenticated, ResourceExhausted, FailedPrecondition, Aborted, OutofRange, Unimplemented, Internal, Unavailable, DataLoss
+
+Check out [[https://godoc.org/google.golang.org/grpc/codes#Code][the definition]].
 
 
 * Inter-services testing
