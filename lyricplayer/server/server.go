@@ -11,7 +11,7 @@ import (
 
 	"google.golang.org/grpc"
 
-	"github.com/johansja/talks/lyricplayer"
+	"github.com/JohanSJA/talks/lyricplayer"
 )
 
 type Player struct {

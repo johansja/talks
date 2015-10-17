@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/johansja/talks/lyricplayer"
+	"github.com/JohanSJA/talks/lyricplayer"
 
 	"golang.org/x/net/context"
 
