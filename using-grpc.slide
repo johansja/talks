@@ -126,7 +126,7 @@ Stick that command into one Go file and use Go generate.
 
 A server interface has been generated.
 
-.code lyricplayer/player.pb.go /^type PlayerServer/,/^}/
+.code lyricplayer/player2.pb.go /^type PlayerServer/,/^}/
 
 
 * Write the server (cont.)
@@ -154,8 +154,8 @@ Server streaming
 
 A client stub has been generated.
 
-.code lyricplayer/player.pb.go /^type playerClient/,/^}/
-.code lyricplayer/player.pb.go /^func NewPlayerClient/,/^}/
+.code lyricplayer/player2.pb.go /^type playerClient/,/^}/
+.code lyricplayer/player2.pb.go /^func NewPlayerClient/,/^}/
 
 
 * Use the client (cont.)
@@ -195,7 +195,7 @@ Check out [[https://godoc.org/google.golang.org/grpc/codes#Code][the definition]
 
 Write a dummy client that satisy the following generated interface for testing.
 
-.code lyricplayer/player.pb.go /^type PlayerClient/,/^}/
+.code lyricplayer/player2.pb.go /^type PlayerClient/,/^}/
 
 
 * RESTful JSON API to gRPC
