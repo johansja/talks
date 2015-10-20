@@ -3,6 +3,7 @@ package main
 import (
 	"io"
 	"log"
+	"net/http"
 	"time"
 
 	"github.com/JohanSJA/talks/lyricplayer"
@@ -13,6 +14,9 @@ import (
 )
 
 func main() {
+	go func() {
+		http.ListenAndServe(":3016", nil)
+	}()
 	// START CONNECT OMIT
 	conn, err := grpc.Dial("127.0.0.1:2015", grpc.WithInsecure())
 	if err != nil {
